@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hanani-store-v1';
+const CACHE_NAME = 'hanani-store';
 const assets = [
   '/hanani-store/',
   '/hanani-store/index.html',
