@@ -1,16 +1,19 @@
 {
-  "name": "متجر حناني",
+  "name": "متجر حناني بيت العطور",
   "short_name": "Hanani",
-  "start_url": "https://mosbahimouataz7.github.io/hanani-store/index.html",
+  "description": "متجر حناني للأصالة والجودة منذ 1969",
+  "start_url": "./index.html",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#f0f2f5",
   "theme_color": "#1b4332",
-  "scope": "https://mosbahimouataz7.github.io/hanani-store/",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2830/2830305.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
