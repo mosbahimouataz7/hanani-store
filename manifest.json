@@ -1,18 +1,16 @@
-const CACHE_NAME = 'hanani-store';
-const assets = [
-  '/hanani-store/',
-  '/hanani-store/index.html',
-  'https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap'
-];
-
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(assets))
-  );
-});
-
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request))
-  );
-});
+{
+  "name": "متجر حناني",
+  "short_name": "Hanani",
+  "start_url": "https://mosbahimouataz7.github.io/hanani-store/index.html",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#1b4332",
+  "scope": "https://mosbahimouataz7.github.io/hanani-store/",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2830/2830305.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
