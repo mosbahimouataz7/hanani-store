@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>حناني بيت العطور والبخور</title>
     
-    <link rel="manifest" href="/hanani-store/manifest.json">
-    <meta name="theme-color" content="#1b4332">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2830/2830305.png">
-
+<link rel="manifest" href="/hanani-store/manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/hanani-store/sw.js')
+      .then(() => console.log("PWA Registered"))
+      .catch(err => console.log("PWA Error", err));
+  }
+</script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
