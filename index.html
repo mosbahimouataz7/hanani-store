@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>حناني بيت العطور والبخور</title>
-    
-<link rel="manifest" href="/hanani-store/manifest.json">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/hanani-store/sw.js')
-      .then(() => console.log("PWA Registered"))
-      .catch(err => console.log("PWA Error", err));
-  }
-</script>
+
+    <link rel="manifest" href="/hanani-store/manifest.json">
+    <meta name="theme-color" content="#1b4332">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2830/2830305.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    
     <style>
         :root { --green: #1b4332; --orange: #e67e22; --bg: #f0f2f5; --admin-color: #2c3e50; --purple: #8e44ad; }
         body { font-family: 'Tajawal', sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; direction: rtl; overflow-x: hidden; }
@@ -35,40 +32,15 @@
         .sub-tab-btn.active { background: var(--admin-color); color: white; }
         .admin-input { padding: 10px; border: 1px solid #ddd; border-radius: 10px; width: 100%; box-sizing: border-box; margin-bottom: 8px; outline: none; font-family: 'Tajawal'; }
 
-        .merchants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .merchant-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; }
-        .merchant-card:hover { transform: translateY(-5px); border-color: var(--purple); box-shadow: 0 5px 15px rgba(142, 68, 173, 0.2); }
-        .merchant-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid #eee; }
-        
-        .merchant-products-editor { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; max-height: 500px; overflow-y: auto; padding: 10px; background: #f8f9fa; border-radius: 10px; border: 1px solid #ddd; }
-        .simple-prod-card { background: white; padding: 10px; border-radius: 8px; border: 1px solid #ddd; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
-        .simple-prod-img { width: 100%; height: 100px; border-radius: 6px; object-fit: contain; }
-        
-        .mini-nav-container { display: flex; overflow-x: auto; white-space: nowrap; gap: 5px; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #eee; }
-        .mini-tab-btn { padding: 6px 15px; border: 1px solid #ccc; background: white; border-radius: 20px; font-size: 0.85rem; cursor: pointer; }
-        .mini-tab-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
-
-        .btn-assign { width: 100%; padding: 8px; border: 1px solid #ccc; background: #f0f0f0; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-assign.assigned { background: var(--purple); color: white; border-color: var(--purple); }
-        
         .container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 15px; max-width: 1200px; margin: 0 auto; }
         @media (max-width: 768px) { .container { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 8px; } }
 
         .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; position: relative; border: 1px solid #eee; transition: 0.3s; height: 100%; }
         .card img { width: 100%; height: 130px; object-fit: cover; cursor: pointer; }
-        
         .card-content { padding: 10px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
         .product-title { font-size: 0.9rem; margin: 0 0 8px 0; height: 38px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.35; }
 
-        .badge-pill { position: absolute; top: 10px; padding: 3px 8px; border-radius: 10px; font-size: 10px; z-index: 5; font-weight: bold; color: white; }
-        .pinned-badge { right: 10px; background: var(--orange); }
-        .wholesale-badge { left: 10px; background: #c0392b; }
-        .merchant-badge { left: 10px; background: var(--purple); }
-
         .price-tag { color: var(--orange); font-weight: bold; font-size: 1rem; }
-        .special-price { color: var(--purple) !important; font-size: 1.1rem; }
-        .wholesale-mode-price { color: #c0392b !important; }
-        
         .add-btn { background: var(--green); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.85rem; width: 100%; margin-top: 8px; }
 
         .nav-tabs-container { background: white; position: sticky; top: 0; z-index: 1000; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 10px 0; }
@@ -80,25 +52,8 @@
         .modal { display: none; position: fixed; z-index: 3000; inset: 0; background: rgba(0,0,0,0.85); padding: 15px; overflow-y: auto; }
         .modal-content { background: white; margin: 20px auto; padding: 25px; width: 95%; max-width: 550px; border-radius: 25px; position: relative; }
         
-        #floatingCart { position: fixed; left: 20px; bottom: 30px; width: 65px; height: 65px; background: #25D366; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 30px; z-index: 5000; cursor: move; user-select: none; touch-action: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.1s; }
-        #floatingCart:active { transform: scale(0.95); }
-
-        .badge { position: absolute; top: 0; right: 0; background: red; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 11px; display: flex; justify-content: center; align-items: center; border: 2px solid white; pointer-events: none; }
-        .cart-qty-btn { background: #eee; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; }
-
-        .edit-box { padding: 10px; background: #f9f9f9; border-top: 1px solid #eee; display: flex; flex-direction: column; gap: 8px; }
-        .btn-pin, .btn-del, .edit-order-input { width: 100%; box-sizing: border-box; padding: 8px; border-radius: 6px; font-family: 'Tajawal'; font-size: 0.85rem; border: 1px solid #ccc; }
-        .btn-pin { background: #ddd; color: #333; border: none; font-weight: bold; }
-        .btn-pin.active { background: var(--orange); color: white; }
-        .edit-order-input { text-align: center; }
-        .btn-del { background: #c0392b; color: white; border: none; font-weight: bold; cursor: pointer; }
-        
-        .save-edit-btn { background: var(--admin-color); color: white; width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 1rem; }
-
-        .log-item { background: #fff; padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .log-action { font-weight: bold; font-size: 0.85rem; }
-        .log-undo-btn { background: #34495e; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; }
-        .log-tag { padding: 2px 6px; border-radius: 4px; color: white; font-size: 0.7rem; margin-left: 5px; }
+        #floatingCart { position: fixed; left: 20px; bottom: 30px; width: 65px; height: 65px; background: #25D366; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 30px; z-index: 5000; cursor: move; user-select: none; touch-action: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .badge { position: absolute; top: 0; right: 0; background: red; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 11px; display: flex; justify-content: center; align-items: center; border: 2px solid white; }
     </style>
 </head>
 <body>
@@ -113,512 +68,93 @@
 <header>
     <h1>🌿 حناني بيت العطور والبخور</h1>
     <p id="mode-text">الأصالة والجودة منذ 1969</p>
-
     <div class="header-actions-container">
         <button class="top-btn" onclick="loginAdmin()">⚙️ الإدارة</button>
-        <button class="top-btn" id="wholesaleToggle" onclick="handleLogin()">🛒 تجار</button>
+        <button class="top-btn" onclick="handleLogin()">🛒 تجار</button>
     </div>
 </header>
 
 <div class="admin-panel" id="adminPanel">
     <div class="admin-tab-btns">
-        <button class="sub-tab-btn active" onclick="switchAdminTab('products')">المنتجات</button>
-        <button class="sub-tab-btn" onclick="switchAdminTab('merchants')">ملفات التجار</button>
-        <button class="sub-tab-btn" onclick="switchAdminTab('logs')" style="background: #e74c3c; color: white;">🕒 سجل التعديلات</button>
+        <button class="sub-tab-btn active">المنتجات</button>
+        <button class="sub-tab-btn">سجل التعديلات</button>
     </div>
-
     <div id="admin-products-tab">
-        <div style="background: #e3f2fd; padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #bbdefb; color: #0d47a1; text-align: center;">
-            💡 <b>ملاحظة:</b> لتعديل بيانات المنتج (الاسم، السعر...) اضغط على <b>صورة المنتج</b> في الأسفل.
-        </div>
         <h3>📦 إضافة منتج جديد</h3>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px;">
-            <input type="text" id="p-name" class="admin-input" placeholder="اسم المنتج">
-            <input type="number" id="p-price" class="admin-input" placeholder="سعر التجزئة">
-            <input type="number" id="p-price-w" class="admin-input" placeholder="سعر الجملة">
-            <input type="number" id="p-amt" class="admin-input" placeholder="الوزن">
-            <select id="p-unit" class="admin-input"><option>غرام</option><option>مل</option><option>قطعة</option></select>
-            <input type="number" step="0.01" id="p-order" class="admin-input" placeholder="رقم الترتيب">
-            
-            <input type="text" id="p-img" class="admin-input" placeholder="رابط الصورة" style="grid-column: span 2;">
-            <textarea id="p-desc" class="admin-input" placeholder="الوصف..." style="grid-column: span 2; height: 60px;"></textarea>
-            <select id="p-cat" class="admin-input" style="grid-column: span 2;"><option>توابل</option><option>أعشاب</option><option>زيوت</option><option>تجميل</option><option>عطور</option><option>عناية</option><option>مسمنات</option></select>
-            <button onclick="saveProduct()" style="grid-column: span 2; background: var(--orange); color: white; padding: 12px; border: none; border-radius: 10px; font-weight: bold;">حفظ المنتج</button>
-        </div>
-    </div>
-
-    <div id="admin-merchants-tab" style="display: none;">
-        <h3>👥 إدارة التجار والوكلاء</h3>
-        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <input type="text" id="m-name" class="admin-input" placeholder="اسم التاجر">
-            <input type="text" id="m-pass" class="admin-input" placeholder="كلمة السر">
-            <input type="text" id="m-img" class="admin-input" placeholder="رابط الصورة">
-            <button onclick="addMerchant()" style="background: var(--admin-color); color: white; padding: 0 20px; border-radius: 10px; border: none;">إضافة</button>
-        </div>
-        <div id="merchants-list" class="merchants-grid"></div>
-        <div id="merchant-editor" style="display: none; margin-top: 20px; border-top: 2px solid #ccc; padding-top: 15px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h4 style="margin:0; color:var(--purple);">🛠️ تخصيص: <span id="editor-merchant-name"></span></h4>
-                <button onclick="closeMerchantEditor()" style="background:#ddd; border:none; padding:5px 10px; border-radius:5px;">إغلاق</button>
-            </div>
-            <div id="merchant-filter-bar" class="mini-nav-container"></div>
-            <div id="merchant-products-grid" class="merchant-products-editor"></div>
-        </div>
-    </div>
-
-    <div id="admin-logs-tab" style="display: none;">
-        <h3>🕒 سجل التعديلات</h3>
-        <div id="logs-list" style="max-height: 400px; overflow-y: auto; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px;"></div>
+        <input type="text" id="p-name" class="admin-input" placeholder="اسم المنتج">
+        <input type="number" id="p-price" class="admin-input" placeholder="السعر">
+        <input type="text" id="p-img" class="admin-input" placeholder="رابط الصورة">
+        <button onclick="saveProduct()" style="width: 100%; background: var(--orange); color: white; padding: 12px; border: none; border-radius: 10px; font-weight: bold;">حفظ المنتج</button>
     </div>
 </div>
 
 <div class="nav-tabs-container"><div class="nav-tabs-track" id="tabs-track"></div></div>
 <div class="container" id="grid"></div>
 
-<div id="productModal" class="modal" onclick="if(event.target==this) closeProduct()">
-    <div class="modal-content" id="product-detail-content"></div>
-</div>
-
-<div id="adminEditModal" class="modal">
-    <div class="modal-content">
-        <span onclick="document.getElementById('adminEditModal').style.display='none'" style="position:absolute; left:20px; top:15px; font-size:30px; cursor:pointer; color:#888;">&times;</span>
-        <h3 style="text-align:center; color:var(--admin-color); margin-bottom:20px;">✏️ تعديل بيانات المنتج</h3>
-        <div id="edit-form-container"></div>
-    </div>
-</div>
-
 <div id="floatingCart">🛒<div class="badge" id="cart-badge">0</div></div>
 
-<div id="cartModal" class="modal">
-    <div class="modal-content">
-        <h3 id="cart-title" style="text-align: center; color: var(--green);">🛒 سلة المشتريات</h3>
-        <div id="cart-items" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px;"></div>
-        <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; border: 1px dashed var(--green);">
-            <input type="text" id="cust-name" placeholder="الاسم الكامل" class="admin-input">
-            <input type="tel" id="cust-phone" placeholder="رقم الهاتف" class="admin-input">
-            <select id="ship-type" class="admin-input" onchange="updateCartUI()">
-                <option value="600">توصيل للمنزل (600 دج)</option>
-                <option value="400">توصيل للمكتب (400 دج)</option>
-                <option value="150">داخل بئر العاتر (150 دج) 📍</option>
-            </select>
-            <div id="wilaya-section"><select id="cust-wilaya" class="admin-input"></select></div>
-            <div id="address-section"><input type="text" id="cust-address" placeholder="العنوان بالتفصيل" class="admin-input"></div>
-        </div>
-        <div style="font-size: 1.4rem; font-weight: bold; text-align: center; color: var(--orange); margin: 20px 0;">الإجمالي: <span id="final-total">0</span> دج</div>
-        <button onclick="checkout()" style="background: #25D366; color: white; padding: 18px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; width: 100%;">تأكيد الطلب عبر واتساب ✅</button>
-        <button onclick="closeCart()" style="display: block; margin: 10px auto; background: none; color: #888; border: none; cursor: pointer;">إغلاق</button>
-    </div>
-</div>
-
 <script>
-    const config = { adminKey: "aGFuYW5pMTk2OQ==", adminSecurePass: "hanani1969", wholesalePass: "jumlajumla", whatsapp: "213660913779" };
+    // الإعدادات
+    const config = { 
+        adminKey: "aGFuYW5pMTk2OQ==", 
+        whatsapp: "213660913779" 
+    };
     const firebaseConfig = { databaseURL: "https://hananistore-2a8fb-default-rtdb.firebaseio.com/" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    let products = [], cart = [], isAdmin = false;
     const catOrder = ['توابل', 'أعشاب', 'زيوت', 'تجميل', 'عطور', 'مسمنات', 'عناية'];
-    
-    let products = [], merchants = [], logs = [], cart = [], isAdmin = false;
-    let currentMode = 'retail'; 
-    let currentMerchant = null; 
-    let filter = 'الكل';
-    let merchantEditorFilter = 'الكل'; 
+
+    // تسجيل ميزة التثبيت (PWA)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/hanani-store/sw.js')
+            .then(reg => console.log('Service Worker Registered!', reg))
+            .catch(err => console.log('Service Worker Error', err));
+        });
+    }
 
     function init() {
-        const w = ["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان"];
-        const select = document.getElementById('cust-wilaya');
-        w.forEach((name, i) => select.innerHTML += `<option>${i+1} - ${name}</option>`);
-
         document.getElementById('tabs-track').innerHTML = ['الكل', ...catOrder, ...catOrder].map(cat => 
-            `<button class="tab-btn ${cat === 'الكل' ? 'active' : ''}" onclick="render('${cat}', this)">${cat}</button>`
+            `<button class="tab-btn" onclick="render('${cat}', this)">${cat}</button>`
         ).join('');
 
         db.ref('products').on('value', (s) => {
             products = s.val() ? Object.values(s.val()) : [];
-            products.sort((a, b) => {
-                let catIndexA = catOrder.indexOf(a.cat); let catIndexB = catOrder.indexOf(b.cat);
-                if (catIndexA === -1) catIndexA = 99; if (catIndexB === -1) catIndexB = 99;
-                if (catIndexA !== catIndexB) return catIndexA - catIndexB;
-                if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-                let orderA = a.orderIndex || 99999, orderB = b.orderIndex || 99999;
-                if(orderA !== orderB) return orderA - orderB;
-                return b.timestamp - a.timestamp;
-            });
-            render();
-            if(document.getElementById('merchant-editor').style.display === 'block') renderMerchantEditorProducts();
+            render('الكل');
         });
-
-        db.ref('merchants').on('value', (s) => {
-            merchants = s.val() ? Object.values(s.val()) : [];
-            renderMerchantsList();
-        });
-
-        db.ref('logs').limitToLast(50).on('value', (s) => {
-            logs = s.val() ? Object.values(s.val()).reverse() : [];
-            renderLogs();
-        });
-
-        dragElement(document.getElementById("floatingCart"));
-    }
-
-    function addLog(actionType, prodId, prodName, previousData) {
-        const logId = db.ref('logs').push().key;
-        db.ref('logs/' + logId).set({
-            id: logId, action: actionType, prodId: prodId, prodName: prodName, timestamp: Date.now(), previousData: previousData || null
-        });
-    }
-
-    function renderLogs() {
-        const container = document.getElementById('logs-list');
-        if (logs.length === 0) { container.innerHTML = '<div style="padding:20px; text-align:center;">لا توجد سجلات</div>'; return; }
-        container.innerHTML = logs.map(log => {
-            let actionText = '', color = '#7f8c8d';
-            if (log.action === 'edit') { actionText = 'تعديل'; color = '#f39c12'; }
-            if (log.action === 'delete') { actionText = 'حذف'; color = '#c0392b'; }
-            if (log.action === 'create') { actionText = 'إنشاء'; color = '#27ae60'; }
-            const date = new Date(log.timestamp).toLocaleTimeString('ar-DZ');
-            return `<div class="log-item"><div><span class="log-tag" style="background:${color}">${actionText}</span><b>${log.prodName}</b><br><small>${date}</small></div><button class="log-undo-btn" onclick="restoreLog('${log.id}')">↩ تراجع</button></div>`;
-        }).join('');
-    }
-
-    function restoreLog(logId) {
-        const log = logs.find(l => l.id === logId);
-        if (log && confirm(`التراجع عن عملية "${log.action}"؟`)) {
-            if (log.action === 'create') db.ref('products/' + log.prodId).remove();
-            else if (log.previousData) db.ref('products/' + log.prodId).set(log.previousData);
-            db.ref('logs/' + log.id).remove();
-        }
-    }
-
-    function dragElement(elmnt) {
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0, isDragging = false;
-        elmnt.addEventListener('touchstart', dragStart, {passive: false}); elmnt.onmousedown = dragStart;
-        function dragStart(e) {
-            isDragging = false; e = e || window.event;
-            if (e.type === 'touchstart') { pos3 = e.touches[0].clientX; pos4 = e.touches[0].clientY; } 
-            else { e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; }
-            document.onmouseup = closeDragElement; document.onmousemove = elementDrag;
-            document.addEventListener('touchend', closeDragElement); document.addEventListener('touchmove', elementDrag, {passive: false});
-        }
-        function elementDrag(e) {
-            e = e || window.event; if (e.type === 'touchmove') e.preventDefault();
-            let clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-            let clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-            pos1 = pos3 - clientX; pos2 = pos4 - clientY;
-            if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) isDragging = true;
-            pos3 = clientX; pos4 = clientY;
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            elmnt.style.bottom = "auto"; elmnt.style.right = "auto";
-        }
-        function closeDragElement() {
-            document.onmouseup = null; document.onmousemove = null;
-            document.removeEventListener('touchend', closeDragElement); document.removeEventListener('touchmove', elementDrag);
-            if (!isDragging) showCart();
-        }
-    }
-
-    function handleProductClick(id) { if(isAdmin) openAdminEditModal(id); else openProduct(id); }
-
-    function openAdminEditModal(id) {
-        const p = products.find(x => x.id === id); if(!p) return;
-        const container = document.getElementById('edit-form-container');
-        container.innerHTML = `
-            <input type="text" id="edit-name-${id}" value="${p.name}" class="admin-input" placeholder="الاسم">
-            <input type="number" id="edit-price-${id}" value="${p.price}" class="admin-input" placeholder="سعر التجزئة">
-            <input type="number" id="edit-wprice-${id}" value="${p.wholesalePrice||0}" class="admin-input" placeholder="سعر الجملة">
-            <input type="number" id="edit-amt-${id}" value="${p.baseAmt}" class="admin-input" placeholder="الوزن">
-            <select id="edit-unit-${id}" class="admin-input"><option ${p.unit==='غرام'?'selected':''}>غرام</option><option ${p.unit==='مل'?'selected':''}>مل</option><option ${p.unit==='قطعة'?'selected':''}>قطعة</option></select>
-            <select id="edit-cat-${id}" class="admin-input">${catOrder.map(c => `<option ${p.cat===c?'selected':''}>${c}</option>`).join('')}</select>
-            <input type="text" id="edit-img-${id}" value="${p.img||''}" class="admin-input" placeholder="رابط الصورة">
-            <textarea id="edit-desc-${id}" class="admin-input" style="height:80px;">${p.desc||''}</textarea>
-            <button onclick="saveFullProductEdit('${id}')" class="save-edit-btn">💾 حفظ التعديلات</button>`;
-        document.getElementById('adminEditModal').style.display = 'block';
-    }
-
-    function saveFullProductEdit(id) {
-        const oldData = products.find(x => x.id === id);
-        const updates = {
-            name: document.getElementById(`edit-name-${id}`).value,
-            price: parseFloat(document.getElementById(`edit-price-${id}`).value),
-            wholesalePrice: parseFloat(document.getElementById(`edit-wprice-${id}`).value),
-            baseAmt: parseFloat(document.getElementById(`edit-amt-${id}`).value),
-            unit: document.getElementById(`edit-unit-${id}`).value,
-            cat: document.getElementById(`edit-cat-${id}`).value,
-            img: document.getElementById(`edit-img-${id}`).value,
-            desc: document.getElementById(`edit-desc-${id}`).value
-        };
-        addLog('edit', id, oldData.name, oldData);
-        db.ref('products/' + id).update(updates).then(() => { document.getElementById('adminEditModal').style.display = 'none'; });
-    }
-
-    function handleLogin() {
-        if(currentMode !== 'retail') {
-            currentMode = 'retail'; currentMerchant = null;
-            document.getElementById('wholesaleToggle').innerText = "🛒 تجار";
-            document.getElementById('mode-text').innerText = "الأصالة والجودة منذ 1969";
-            document.body.style.setProperty('--bg', '#f0f2f5');
-            cart = []; updateCartBadge(); render(); return;
-        }
-        let pass = prompt("أدخل كلمة السر:"); if (!pass) return;
-        if (pass === config.wholesalePass) { activateWholesaleMode(); return; }
-        const merch = merchants.find(m => m.pass === pass);
-        if (merch) { activateMerchantMode(merch); return; }
-        alert("كلمة السر خاطئة!");
-    }
-
-    function activateWholesaleMode() {
-        currentMode = 'wholesale'; document.getElementById('wholesaleToggle').innerText = "خروج (جملة)";
-        document.getElementById('mode-text').innerText = "⚠️ وضع البيع بالجملة العام";
-        document.body.style.setProperty('--bg', '#fff5f5');
-        cart = []; updateCartBadge(); render();
-    }
-
-    function activateMerchantMode(merch) {
-        currentMode = 'merchant'; currentMerchant = merch;
-        document.getElementById('wholesaleToggle').innerText = `خروج (${merch.name})`;
-        document.getElementById('mode-text').innerHTML = `👤 أهلاً بك: <b style="color:var(--purple)">${merch.name}</b>`;
-        document.body.style.setProperty('--bg', '#f3e5f5');
-        cart = []; updateCartBadge(); render();
     }
 
     function render(cat, btn) {
-        if(cat) filter = cat;
-        if(btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-        const grid = document.getElementById('grid'); grid.innerHTML = "";
-        let displayProducts = products;
-        if (currentMode === 'merchant' && currentMerchant) {
-            displayProducts = products.filter(p => currentMerchant.assignedProducts && currentMerchant.assignedProducts[p.id] === true);
+        if(btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
-        displayProducts.filter(p => filter === 'الكل' || p.cat === filter).forEach(p => {
-            let price = p.price; let priceClass = '';
-            if (currentMode === 'wholesale') { price = p.wholesalePrice || p.price; priceClass = 'wholesale-mode-price'; } 
-            else if (currentMode === 'merchant' && currentMerchant) {
-                price = (currentMerchant.customPrices && currentMerchant.customPrices[p.id]) ? currentMerchant.customPrices[p.id] : (p.wholesalePrice || p.price);
-                priceClass = 'special-price';
-            }
-            let badges = p.pinned ? `<div class="badge-pill pinned-badge">⭐</div>` : '';
+        const grid = document.getElementById('grid');
+        grid.innerHTML = "";
+        products.filter(p => cat === 'الكل' || p.cat === cat).forEach(p => {
             grid.innerHTML += `
                 <div class="card">
-                    ${badges}
-                    <img src="${p.img || 'https://via.placeholder.com/150'}" onclick="handleProductClick('${p.id}')">
+                    <img src="${p.img || 'https://via.placeholder.com/150'}">
                     <div class="card-content">
                         <h3 class="product-title">${p.name}</h3>
-                        <div class="info-row"><span class="price-tag ${priceClass}">${price} دج</span><small>${p.baseAmt}${p.unit}</small></div>
-                        ${isAdmin ? getAdminControls(p) : getAddToCartBtn(p)}
+                        <span class="price-tag">${p.price} دج</span>
+                        <button class="add-btn" onclick="alert('تمت الإضافة')">إضافة 🛒</button>
                     </div>
                 </div>`;
         });
     }
 
-    function getAdminControls(p) {
-        return `<div class="edit-box">
-            <button class="btn-pin ${p.pinned ? 'active' : ''}" onclick="togglePin('${p.id}')">📌 تثبيت</button>
-            <input type="number" step="0.01" class="edit-order-input" value="${p.orderIndex || ''}" onchange="updateProd('${p.id}','orderIndex',this.value)" placeholder="ترتيب">
-            <button class="btn-del" onclick="delProd('${p.id}', '${p.name}')">🗑️ حذف</button>
-        </div>`;
-    }
-
-    function getAddToCartBtn(p) {
-        return `<input type="number" id="qty-${p.id}" value="${p.baseAmt}" style="width:100%; text-align:center; padding:5px; margin-top:5px; border:1px solid #ddd; border-radius:5px;">
-        <button class="add-btn" onclick="addToCart('${p.id}')">إضافة للسلة 🛒</button>`;
-    }
-
-    function loginAdmin() { 
-        let pass = prompt("كلمة السر:"); 
-        if (btoa(pass) === config.adminKey) { isAdmin = !isAdmin; document.getElementById('adminPanel').style.display = isAdmin ? 'block' : 'none'; render(); } 
-    }
-    
-    function switchAdminTab(tab) {
-        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-        if(event) event.target.classList.add('active');
-        document.getElementById('admin-products-tab').style.display = tab === 'products' ? 'block' : 'none';
-        document.getElementById('admin-merchants-tab').style.display = tab === 'merchants' ? 'block' : 'none';
-        document.getElementById('admin-logs-tab').style.display = tab === 'logs' ? 'block' : 'none';
-    }
-
-    function addMerchant() {
-        const name = document.getElementById('m-name').value, pass = document.getElementById('m-pass').value, img = document.getElementById('m-img').value;
-        if(name && pass) {
-            const id = "m_" + Date.now();
-            db.ref('merchants/' + id).set({ id, name, pass, img });
+    function loginAdmin() {
+        let pass = prompt("كلمة السر:");
+        if (btoa(pass) === config.adminKey) {
+            isAdmin = !isAdmin;
+            document.getElementById('adminPanel').style.display = isAdmin ? 'block' : 'none';
         }
     }
-
-    function renderMerchantsList() {
-        const list = document.getElementById('merchants-list'); list.innerHTML = "";
-        merchants.forEach(m => {
-            list.innerHTML += `<div class="merchant-card" onclick="openMerchantEditorAuth('${m.id}')">
-                <img src="${m.img || 'https://via.placeholder.com/80'}" class="merchant-img"><div>${m.name}</div><small>🔐 ${m.pass}</small></div>`;
-        });
-    }
-
-    let editingMerchantId = null;
-    function openMerchantEditorAuth(mId) {
-        if (prompt("🔒 كود الأمان:") === config.adminSecurePass) {
-            editingMerchantId = mId; const m = merchants.find(x => x.id === mId);
-            document.getElementById('editor-merchant-name').innerText = m.name;
-            document.getElementById('merchants-list').style.display = 'none';
-            document.getElementById('merchant-editor').style.display = 'block';
-            renderMerchantFilterBar(); renderMerchantEditorProducts();
-        }
-    }
-
-    function closeMerchantEditor() {
-        editingMerchantId = null; document.getElementById('merchant-editor').style.display = 'none';
-        document.getElementById('merchants-list').style.display = 'grid';
-    }
-
-    function renderMerchantFilterBar() {
-        const container = document.getElementById('merchant-filter-bar');
-        container.innerHTML = ['الكل', ...catOrder].map(cat => 
-            `<button class="mini-tab-btn ${cat === merchantEditorFilter ? 'active' : ''}" onclick="setMerchantFilter('${cat}')">${cat}</button>`
-        ).join('');
-    }
-
-    function setMerchantFilter(cat) { merchantEditorFilter = cat; renderMerchantFilterBar(); renderMerchantEditorProducts(); }
-
-    function renderMerchantEditorProducts() {
-        if(!editingMerchantId) return;
-        const m = merchants.find(x => x.id === editingMerchantId);
-        const grid = document.getElementById('merchant-products-grid'); grid.innerHTML = "";
-        products.filter(p => merchantEditorFilter === 'الكل' || p.cat === merchantEditorFilter).forEach(p => {
-            const isAssigned = m.assignedProducts && m.assignedProducts[p.id];
-            grid.innerHTML += `
-                <div class="simple-prod-card">
-                    <img src="${p.img || 'https://via.placeholder.com/100'}" class="simple-prod-img"><b>${p.name}</b>
-                    <input type="number" placeholder="سعر خاص" value="${(m.customPrices && m.customPrices[p.id]) || ''}" onchange="saveMerchantPrice('${m.id}', '${p.id}', this.value)" style="width:80%; text-align:center;">
-                    <button class="btn-assign ${isAssigned ? 'assigned' : ''}" onclick="toggleMerchantAssign('${m.id}', '${p.id}', ${isAssigned})">${isAssigned ? 'إلغاء' : 'تعيين'}</button>
-                </div>`;
-        });
-    }
-
-    function toggleMerchantAssign(mId, pId, currentStatus) {
-        const path = `merchants/${mId}/assignedProducts/${pId}`;
-        if(currentStatus) db.ref(path).remove(); else db.ref(path).set(true);
-        setTimeout(() => renderMerchantEditorProducts(), 200);
-    }
-
-    function saveMerchantPrice(mId, pId, val) {
-        const path = `merchants/${mId}/customPrices/${pId}`;
-        if(val) db.ref(path).set(parseFloat(val)); else db.ref(path).remove();
-    }
-
-    function saveProduct() {
-        const id = "p_" + Date.now();
-        const data = { 
-            id, name: document.getElementById('p-name').value, price: parseFloat(document.getElementById('p-price').value), 
-            wholesalePrice: parseFloat(document.getElementById('p-price-w').value) || 0, baseAmt: parseFloat(document.getElementById('p-amt').value), 
-            unit: document.getElementById('p-unit').value, cat: document.getElementById('p-cat').value, img: document.getElementById('p-img').value, 
-            desc: document.getElementById('p-desc').value, orderIndex: parseFloat(document.getElementById('p-order').value) || 99,
-            pinned: false, timestamp: Date.now() 
-        };
-        if(data.name) { addLog('create', id, data.name, null); db.ref('products/' + id).set(data); }
-    }
-    
-    function updateProd(id, f, v) { 
-        const p = products.find(x => x.id === id); addLog('edit', id, p.name, p);
-        db.ref('products/'+id).update({[f]: parseFloat(v) || v}); 
-    }
-    
-    function delProd(id, n) { 
-        if(confirm(`حذف "${n}"؟`)) { const p = products.find(x => x.id === id); addLog('delete', id, n, p); db.ref('products/'+id).remove(); }
-    }
-
-    function togglePin(id) { const p = products.find(x => x.id === id); db.ref('products/' + id).update({ pinned: !p.pinned }); }
-
-    function addToCart(id, fromModal = false) {
-        const p = products.find(x => x.id === id);
-        const q = parseFloat(document.getElementById(fromModal ? 'qty-modal-'+id : 'qty-'+id).value);
-        if(!q || q <= 0) return;
-        let unitPrice = p.price;
-        if (currentMode === 'wholesale') unitPrice = p.wholesalePrice || p.price;
-        if (currentMode === 'merchant' && currentMerchant) unitPrice = (currentMerchant.customPrices && currentMerchant.customPrices[id]) || (p.wholesalePrice || p.price);
-        
-        const existing = cart.find(item => item.id === id && item.baseQty === q);
-        if(existing) { existing.orderCount += 1; existing.finalPrice = Math.round((unitPrice / p.baseAmt) * (q * existing.orderCount)); } 
-        else { cart.push({ ...p, selectedQty: q, orderCount: 1, baseQty: q, priceUsed: unitPrice, finalPrice: Math.round((unitPrice / p.baseAmt) * q) }); }
-        updateCartBadge(); if(fromModal) closeProduct(); alert("تمت الإضافة ✅");
-    }
-
-    function changeCartQty(index, delta) {
-        cart[index].orderCount += delta;
-        if(cart[index].orderCount <= 0) cart.splice(index, 1);
-        else { const item = cart[index]; item.selectedQty = item.baseQty * item.orderCount; item.finalPrice = Math.round((item.priceUsed / item.baseAmt) * item.selectedQty); }
-        updateCartBadge(); updateCartUI();
-    }
-    function updateCartBadge() { document.getElementById('cart-badge').innerText = cart.length; }
-    
-    function updateCartUI() {
-        const list = document.getElementById('cart-items'); list.innerHTML = ""; let sub = 0;
-        cart.forEach((i, idx) => { 
-            sub += i.finalPrice; 
-            list.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
-                <div><b>${i.name}</b><br><small>${i.selectedQty}${i.unit}</small></div>
-                <div style="display:flex; align-items:center; gap:10px;"><button class="cart-qty-btn" onclick="changeCartQty(${idx}, -1)">-</button><span>${i.orderCount}</span><button class="cart-qty-btn" onclick="changeCartQty(${idx}, 1)">+</button></div></div>`; 
-        });
-        const ship = parseInt(document.getElementById('ship-type').value);
-        document.getElementById('final-total').innerText = sub + ship;
-    }
-
-    function checkout() {
-        const n = document.getElementById('cust-name').value, p = document.getElementById('cust-phone').value;
-        if(!n || !p || cart.length === 0) return alert("يرجى ملء البيانات");
-        let msg = `*📦 طلبية جديدة*\n👤 الاسم: ${n}\n📞 الهاتف: ${p}\n`;
-        cart.forEach(i => msg += `- ${i.name} (${i.selectedQty}${i.unit}): ${i.finalPrice}دج\n`);
-        msg += `*💰 الإجمالي: ${document.getElementById('final-total').innerText} دج*`;
-        window.open(`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(msg)}`);
-    }
-
-    function showCart() { document.getElementById('cartModal').style.display = 'block'; updateCartUI(); }
-    function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
-    
-    function openProduct(id) {
-        const p = products.find(x => x.id === id);
-        let pr = p.price;
-        if(currentMode === 'wholesale') pr = p.wholesalePrice || p.price;
-        if(currentMode === 'merchant' && currentMerchant) pr = (currentMerchant.customPrices && currentMerchant.customPrices[id]) || (p.wholesalePrice || p.price);
-        document.getElementById('product-detail-content').innerHTML = `
-            <span onclick="closeProduct()" style="position:absolute; left:20px; top:10px; font-size:35px; cursor:pointer;">&times;</span>
-            <div style="text-align:center;">
-                <img src="${p.img || 'https://via.placeholder.com/150'}" style="width:100%; border-radius:20px;">
-                <h2>${p.name}</h2><div style="font-size:1.5rem; color:var(--orange); font-weight:bold;">${pr} دج</div>
-                <p>${p.desc || ''}</p>
-                <input type="number" id="qty-modal-${p.id}" value="${p.baseAmt}" style="width:80px; padding:10px; border:1px solid var(--green); border-radius:10px;">
-                <button onclick="addToCart('${p.id}', true)" style="width:100%; background:var(--green); color:white; padding:15px; border:none; border-radius:10px; margin-top:15px; font-weight:bold;">إضافة للسلة 🛒</button>
-            </div>`;
-        document.getElementById('productModal').style.display = 'block';
-    }
-    function closeProduct() { document.getElementById('productModal').style.display = 'none'; }
 
     init();
 </script>
-
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/hanani-store/sw.js');
-    }
-
-    let deferredPrompt;
-    const pwaBtn = document.createElement('button');
-    pwaBtn.style.cssText = "display:none; position:fixed; bottom:110px; left:50%; transform:translateX(-50%); z-index:9999; background:#e67e22; color:white; padding:12px 25px; border-radius:30px; border:none; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.4); cursor:pointer;";
-    pwaBtn.innerHTML = "📲 تحميل تطبيق المتجر";
-    document.body.appendChild(pwaBtn);
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        pwaBtn.style.display = 'block';
-    });
-
-    pwaBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') pwaBtn.style.display = 'none';
-            deferredPrompt = null;
-        }
-    });
-</script>
-
 </body>
 </html>
